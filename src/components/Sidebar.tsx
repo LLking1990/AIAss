@@ -2,12 +2,9 @@ import React, { useState } from 'react';
 import { 
   SquarePen, 
   MessageSquare, 
-  Grid, 
   Search, 
   Settings, 
-  Pin, 
   Trash2, 
-  FileText,
   ChevronRight,
   ShieldCheck
 } from 'lucide-react';
@@ -20,7 +17,7 @@ interface SidebarProps {
   onNewChat: () => void;
   onNewWorkbenchTask: () => void;
   onDeleteConversation: (id: string, e: React.MouseEvent) => void;
-  onTogglePin: (id: string, e: React.MouseEvent) => void;
+  onTogglePin?: (id: string, e: React.MouseEvent) => void;
   onOpenSettings: () => void;
   isOpen: boolean;
 }
@@ -32,20 +29,15 @@ export const Sidebar: React.FC<SidebarProps> = ({
   onNewChat,
   onNewWorkbenchTask,
   onDeleteConversation,
-  onTogglePin,
   onOpenSettings,
   isOpen
 }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearching, setIsSearching] = useState(false);
 
-  const pinnedConvs = conversations.filter(c => c.isPinned);
-  const draftConvs = conversations.filter(c => c.category === 'draft');
-  const recentConvs = conversations.filter(c => !c.isPinned && c.category !== 'draft');
-
-  const filteredRecent = searchQuery
-    ? recentConvs.filter(c => c.title.toLowerCase().includes(searchQuery.toLowerCase()))
-    : recentConvs;
+  const filteredConversations = searchQuery
+    ? conversations.filter(c => c.title.toLowerCase().includes(searchQuery.toLowerCase()))
+    : conversations;
 
   if (!isOpen) {
     return null;
@@ -106,75 +98,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
       <div className="h-[1px] bg-[#f2f4f7] mx-3 my-1" />
 
-      {/* Scrollable Conversation Lists */}
+      {/* Scrollable Conversation Lists - Recent Only */}
       <div className="flex-1 overflow-y-auto px-3 py-2 space-y-4">
-        {/* Drafts */}
-        {draftConvs.length > 0 && (
-          <div>
-            <div className="text-[11px] font-medium text-[#98a2b3] px-2 mb-1">草稿</div>
-            <div className="space-y-0.5">
-              {draftConvs.map((conv) => (
-                <div
-                  key={conv.id}
-                  onClick={() => onSelectConversation(conv.id)}
-                  className={`group flex items-center justify-between px-2.5 py-1.5 rounded-lg cursor-pointer transition-colors ${
-                    activeConvId === conv.id ? 'bg-[#f2f4f7] text-[#101828] font-medium' : 'text-[#475467] hover:bg-[#f9fafb]'
-                  }`}
-                >
-                  <div className="flex items-center gap-2 min-w-0">
-                    <FileText className="w-3.5 h-3.5 text-[#98a2b3] shrink-0" />
-                    <span className="truncate text-xs">{conv.title}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Pinned */}
-        {pinnedConvs.length > 0 && (
-          <div>
-            <div className="text-[11px] font-medium text-[#98a2b3] px-2 mb-1">置顶</div>
-            <div className="space-y-0.5">
-              {pinnedConvs.map((conv) => (
-                <div
-                  key={conv.id}
-                  onClick={() => onSelectConversation(conv.id)}
-                  className={`group flex items-center justify-between px-2.5 py-1.5 rounded-lg cursor-pointer transition-colors ${
-                    activeConvId === conv.id ? 'bg-[#f2f4f7] text-[#101828] font-medium' : 'text-[#475467] hover:bg-[#f9fafb]'
-                  }`}
-                >
-                  <div className="flex items-center gap-2 min-w-0">
-                    <span className="w-2 h-2 rounded-full bg-[#155eef]/70 shrink-0" />
-                    <span className="truncate text-xs">{conv.title}</span>
-                  </div>
-                  <div className="hidden group-hover:flex items-center gap-1 shrink-0">
-                    <button
-                      onClick={(e) => onTogglePin(conv.id, e)}
-                      title="取消置顶"
-                      className="p-1 hover:text-[#101828]"
-                    >
-                      <Pin className="w-3 h-3 fill-current text-[#155eef]" />
-                    </button>
-                    <button
-                      onClick={(e) => onDeleteConversation(conv.id, e)}
-                      title="删除"
-                      className="p-1 hover:text-red-600"
-                    >
-                      <Trash2 className="w-3 h-3 text-[#98a2b3]" />
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Recent Conversations */}
         <div>
           <div className="text-[11px] font-medium text-[#98a2b3] px-2 mb-1">最近</div>
           <div className="space-y-0.5">
-            {filteredRecent.map((conv) => (
+            {filteredConversations.map((conv) => (
               <div
                 key={conv.id}
                 onClick={() => onSelectConversation(conv.id)}
@@ -189,13 +118,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   <span className="truncate text-xs">{conv.title}</span>
                 </div>
                 <div className="hidden group-hover:flex items-center gap-1 shrink-0">
-                  <button
-                    onClick={(e) => onTogglePin(conv.id, e)}
-                    title="置顶对话"
-                    className="p-1 hover:text-[#155eef]"
-                  >
-                    <Pin className="w-3 h-3 text-[#98a2b3]" />
-                  </button>
                   <button
                     onClick={(e) => onDeleteConversation(conv.id, e)}
                     title="删除"

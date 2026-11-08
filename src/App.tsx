@@ -370,17 +370,6 @@ export default function App() {
           sidebarOpen={sidebarOpen}
           onToggleSidebar={() => setSidebarOpen(!sidebarOpen)}
           mode={mode}
-          onModeChange={setMode}
-          isMuted={isMuted}
-          onToggleMute={() => setIsMuted(!isMuted)}
-          onResetChat={handleNewChat}
-          onExportDoc={() => {
-            if (activeDoc) {
-              alert(`已准备好导出《${activeDoc.title}》标准电子卷宗！`);
-            } else {
-              alert('当前对话暂未生成文书，您可点击底部【智能法律文书撰写】生成！');
-            }
-          }}
           chatTitle={activeConv?.title}
         />
 

@@ -203,43 +203,7 @@ export const SAMPLE_CASE_COMPARISONS: CaseComparisonResult[] = [
   }
 ];
 
-// Initial mock conversations to populate sidebar faithfully matching the user's screenshot
 export const INITIAL_CONVERSATIONS: Conversation[] = [
-  {
-    id: 'conv_pin_1',
-    title: '用 C 实现类似 C++ unordered_map',
-    updatedAt: '昨天 21:05',
-    isPinned: true,
-    category: 'pinned',
-    messages: [
-      {
-        id: 'm1',
-        sender: 'user',
-        timestamp: '21:04',
-        content: '用 C 实现类似 C++ unordered_map 的开散列哈希表，包含冲突拉链法和扩容机制。'
-      },
-      {
-        id: 'm2',
-        sender: 'assistant',
-        timestamp: '21:05',
-        content: '为你设计了基于链地址法的纯 C 哈希表实现，具备动态负载因子检测（Load Factor > 0.75 时自动扩容 2 倍）以及内存安全管理...'
-      }
-    ]
-  },
-  {
-    id: 'conv_draft_1',
-    title: '将这个图片的坦克抠出来',
-    updatedAt: '今天 11:20',
-    category: 'draft',
-    messages: [
-      {
-        id: 'm3',
-        sender: 'user',
-        timestamp: '11:20',
-        content: '将这个图片的坦克抠出来并去除背景噪点。'
-      }
-    ]
-  },
   {
     id: 'conv_recent_1',
     title: '凡人修仙传马良下界目的',
