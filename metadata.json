@@ -1,0 +1,6 @@
+{
+  "name": "法言智办 - 个人法律办公AI助手",
+  "description": "专业简洁高效的个人法律办公前端聊天与工作台，集成智能法律文书撰写、合同风险智能审查与红线批注、精准法规检索与类似案例对比。",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
